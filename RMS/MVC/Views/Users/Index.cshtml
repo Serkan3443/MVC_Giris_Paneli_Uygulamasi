@@ -1,0 +1,66 @@
+﻿@using System.Globalization;
+@model List<MVC.Entities.User>
+
+@{
+	string users = "Users";
+	ViewData["Title"] = users;
+	
+}
+<h1>@users</h1>
+@if(TempData["Message"]!=null)
+{
+	<p class="text-success">@TempData["Message"]</p>
+}
+<p>
+@Html.ActionLink("Create New User", "Create")
+</p>
+
+@if (Model.Count == 0)
+{
+	
+	<p>No users found</p>
+}
+else if (Model.Count == 1)
+{
+	<p>1 user found</p>
+}
+else
+{
+	<p>@Model.Count users found.</p>
+}
+@if (Model.Count > 0)
+{
+	<table class="table">
+		<tr>
+			<th>
+				@*<Label>Operations</label>*@
+				@Html.Label("Operations")</th>
+			<th>User Name</th>
+			<th>Active</th>
+			<th>Status</th>
+			<th>Birth Date</th>
+			<th>Role</th>
+		</tr>
+		@foreach (var user in Model)
+		{
+		
+			<tr>
+				<td>
+					
+					@* @Html.ActionLink("User Details","Details", new{id=user.Id}) *@
+					<a asp-action="Details" asp-route-id="@user.Id">Details</a>&nbsp; &nbsp;
+
+					<a asp-action="Edit" asp-route-id="@user.Id">Edit</a>&nbsp; &nbsp;
+					<a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+				</td>
+				<td>@user.UserName</td>
+				<td>@(user.IsActive ? "Yes": "No")</td>
+				<td>@user.Status</td>
+
+				<td>@(user.Birthdate.HasValue ? user.Birthdate.Value.ToString("MM/dd/yyyy", new CultureInfo("en-US")):"")</td>
+
+				<td>@user.Role.Name</td>
+			</tr>
+		}
+	</table>
+}

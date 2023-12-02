@@ -1,0 +1,62 @@
+﻿@using MVC.Entities
+@model MVC.Entities.Role
+
+@{
+    ViewData["Title"] = "Role Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Role</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Users)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.Users.Count)
+        </dd>
+
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Users)
+        </dt>
+        <dd class="col-10">
+            @* 1.Yöntem @{
+                string users =string.Empty;
+                string seperator = ",";
+                foreach(User user in Model.Users)
+                {
+                    users += user.UserName + seperator;
+                }
+                //users=users.TrimEnd(',', ' ');
+                if(users.Length>0)
+                users = users.Substring(0, users.Length - seperator.Length);
+            } *@
+            @* 2.Yöntem *@
+            @{
+                string users ="";
+                string seperator = "<br>";
+                foreach (User user in Model.Users)
+                {
+                    users += user.UserName + seperator;
+                }
+                users=users.TrimEnd(seperator.ToCharArray());
+                // if (users.Length > 0)
+                //     users = users.Substring(0, users.Length - seperator.Length);
+            }
+            @Html.Raw(users);
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
